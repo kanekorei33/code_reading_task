@@ -28,12 +28,13 @@ class AgendasController < ApplicationController
     @agenda.destroy
     redirect_to dashboard_url,notice: I18n.t('views.messages.delete_agenda')
 
-    #@keep_team_id = @agenda.team_id
-    #user_emails = User.where(keep_team_id: @keep_team_id).pluck(:email)
-      #user_emails.each do |emails|
-      #ContactMailer.contact_mail(emails).deliver
+    @keep_team_id = @agenda.team_id
+    user_emails = User.where(keep_team_id: @keep_team_id).pluck(:email)
+    #emailを配列で取り出すpluck
+      user_emails.each do |emails|
+      ContactMailer.contact_mail(emails).deliver
       #ContactMailer.contact_mail(@user).deliver
-      #end
+      end
     else
       redirect_to dashboard_url, notice: "権限がないため削除できません。"
     end
